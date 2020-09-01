@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import animalData from './db';
+
 import Start from './components/startPage/Start';
 import Game from './components/gamePage/Game';
 import Final from './components/finalPage/Final';
@@ -17,11 +17,11 @@ function App() {
   };
 
   return (
-    <div>
+    <>
       {screen === 'start' && <Start updateScreenData={updateScreenData} />}
       {screen === 'game' && <Game updateScreenData={updateScreenData} setResult={setResultValue} />}
       {screen === 'final' && <Final updateScreenData={updateScreenData} points={finalPoints} />}
-    </div>
+    </>
   );
 }
 
