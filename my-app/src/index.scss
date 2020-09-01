@@ -1,13 +1,48 @@
+@import "~bootstrap/scss/bootstrap";
+
+/* --- styles for components --- */
+@import "./styles/_question-block.scss";
+@import "./styles/_variants-block.scss";
+@import "./styles/_info-block.scss";
+@import "./styles/_button-block.scss";
+@import "./styles/_start-page.scss";
+@import "./styles/_final-page.scss";
+
+
+$backgroundColor: #222222;
+
+/* ----- screen sizes ----- */
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 10px;
+  color: #ffffff;
+  background-color: $backgroundColor;
+  box-sizing: border-box;
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.container{
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.list-group-item{
+  position: relative;
+  display: block;
+  background-color: #303030;
+  border: 1px solid #555;
 }
