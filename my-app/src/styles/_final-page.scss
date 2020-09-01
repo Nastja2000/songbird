@@ -1,0 +1,67 @@
+.final-page-wrapper{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 18% 0;
+}
+
+.congrats-text{
+    font-size: 1.5rem;
+    width: 40%;
+    margin: auto;
+}
+
+.final-btn{
+    width: 30%;
+    background: #00bc8c;
+    border-color: #00bc8c;
+}
+
+.congrats-confetti{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/otherImages/great-final.gif');
+}
+
+.congrats-confetti .congrats-text{
+    font-size: 1.5rem;
+    width: 40%;
+    margin: auto;
+    margin: 14% auto;
+    background-color: rgba(255,255,255,0.9);
+    color: #333;
+    border-radius: 16px;
+}
+
+@media (max-width: 768px) {
+    .congrats-text,
+    .congrats-confetti .congrats-text {
+        font-size: 1.2rem;
+    }
+
+    .final-page-wrapper
+    {
+        margin: 40% 0;
+    }
+
+    .congrats-confetti .congrats-text{
+        margin: 30% auto;
+    }
+
+}
+
+@media (max-width: 375px) {
+    .congrats-text,
+    .congrats-confetti .congrats-text{
+        font-size: 1.1rem;
+    }
+
+    .final-btn{
+        width: 55%;
+    }
+
+}
