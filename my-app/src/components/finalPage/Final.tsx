@@ -4,25 +4,28 @@ import React from 'react';
 const Final = (props: { updateScreenData: (arg0: 'start' | 'game' | 'final') => void; points: React.ReactNode; }) => {
   const { points } = props;
   return (
-    <div>
+    <div className="final-page-wrapper">
       {points === 30 ? (
         <>
-          <p>
-            {' '}
-            Ура! Это победа! Поздравляю! Да ты можешь вести какую-нибудь программу о животных, так хорошо ты их знаешь.
-            P.S. Только не говори, что ты ещё и понимаешь, что они говорят.
-            {' '}
-          </p>
+          <div className="congrats-confetti">
+            <p className="congrats-text">
+              {' '}
+              Ура! Это победа! Поздравляю! Да ты можешь вести какую-нибудь программу о животных, так хорошо ты их знаешь.
+              <br />
+              P.S. Только не говори, что ты ещё и понимаешь, что они говорят.
+              {' '}
+            </p>
+          </div>
         </>
       ) : (
         <>
-          <p>
+          <p className="congrats-text">
             {' '}
             Вы набрали
             {' '}
             {points}
             {' '}
-            из 30 возможных! Неплохой результат. Давай попробуем ещё раз.
+            из 30 возможных! Неплохой результат. Давайте попробуем ещё раз.
             {' '}
           </p>
 
@@ -31,6 +34,7 @@ const Final = (props: { updateScreenData: (arg0: 'start' | 'game' | 'final') => 
             onClick={() => {
               props.updateScreenData('game');
             }}
+            className="btn final-btn"
           >
             Играть снова
           </button>
