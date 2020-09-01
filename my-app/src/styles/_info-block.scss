@@ -1,0 +1,95 @@
+.card{
+    background-color: #303030;
+}
+
+.animal-info {
+    display: flex;
+    padding: 1rem;
+    border: 1px solid #444;
+    width: 100%;
+  }
+
+  .animal-info .animal-image {
+    width: 200px;
+    height: 155px;
+    border-radius: 10px;
+    object-fit: cover;
+    margin-right: 2rem;
+  }
+
+  .animal-info .list-group-item {
+    padding: .25rem;
+  }
+
+  .animal-info .list-group-item .term{
+    margin-right: .5rem;
+  }
+
+  .card-body {
+    display: flex;
+    padding: 0;
+    flex-direction: row;
+    min-height: 173px;
+  }
+
+  .card-body .list-group {
+    width: calc(100% - 240px);
+  }
+
+  .game-instruction span {
+    display: block;
+    font-size: 0.8rem;
+  }
+
+  .latin-name{
+    font-size: 0.8rem;
+  }
+
+  .animal-description{
+    font-size: 0.8rem;
+  }
+
+  .animal-info-list{
+    margin-left: 0;
+  }
+
+  @media (max-width: 992px) {
+    .card-body {
+      flex-direction: column;
+    }
+    .animal-info .animal-image {
+      display: block;
+      margin: 0 auto 25px;
+    }
+    .card-body .list-group {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .animal-info {
+      display: block;
+      margin-top: 40px;
+    }
+    .card-body {
+      flex-direction: row;
+    }
+    .animal-info .animal-image {
+      margin-right: 2rem;
+    }
+  }
+
+  @media (max-width: 570px) {
+    .card-body {
+      flex-direction: column;
+    }
+
+    .animal-info .animal-image {
+      margin: 0 auto 25px;
+    }
+
+    h4,
+    .card-body .list-group-item:nth-child(2) {
+      text-align: center;
+    }
+  }
