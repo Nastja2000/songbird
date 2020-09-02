@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React from 'react';
+import React, { useState } from 'react';
+import AudioPlayer from 'react-h5-audio-player';
 
+import 'react-h5-audio-player/src/styles.scss';
 import style from './question.module.scss';
 
 type AnswerType = {
@@ -19,8 +21,18 @@ const timebarProgressColor = `linear-gradient(to right, rgb(0, 188, 140) 0%, rgb
 
 const Question = (props: { answer: AnswerType; isAnswered: boolean }) => {
   const { answer, isAnswered } = props;
+
+  const [playIconSrc, setPlayIconSrc] = useState('/images/otherImages/play-button.svg');
+  const [playIconAlt, setPlayIconAlt] = useState('play');
+
   const imageSrc = isAnswered ? `${answer.image}` : '/images/otherImages/question.jpg';
   const name = isAnswered ? `${answer.name}` : '*****';
+
+  if (isAnswered) {
+    const audio = document.querySelector('.question')?.querySelector('audio');
+      audio?.pause();
+  }
+
   return (
     <div className={`${style.questionField} random-animal jumbotron rounded`}>
       <img className={`${style.animalImage} animal-image`} src={imageSrc} alt="animal img" />
@@ -29,25 +41,12 @@ const Question = (props: { answer: AnswerType; isAnswered: boolean }) => {
           <h3>{name}</h3>
         </li>
         <li className="list-group-item">
-          <div className="audio-player">
-            <audio src={answer.audio} hidden />
-            <div className="controls">
-              <div className="play-button">
-                <img src="/images/otherImages/play-button.svg" alt="play" />
-              </div>
-              <div className="timebar-container" style={{ position: 'relative' }}>
-                <div className="timebar-line" style={{ background: `${timebarProgressColor}` }} />
-                <div className="timebar-circle" />
-                <div className="timebar-time">
-                  <div className="time current" />
-                  <div className="time max" />
-                </div>
-              </div>
-              <div className="volumebar">
-                <img src="/images/otherImages/speaker.svg" alt="volume icon" />
-                <div id="volume" />
-              </div>
-            </div>
+          <div className="audio-player question">
+            <AudioPlayer
+              className="audio"
+              src={answer.audio}
+              showJumpControls={false}
+            />
           </div>
         </li>
       </ul>

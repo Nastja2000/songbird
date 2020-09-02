@@ -1,47 +1,47 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable max-len */
+import React, { useState } from 'react';
 import Header from './gameComponents/headerBlock/Header';
 import Question from './gameComponents/questionBlock/Question';
 import Quiz from './gameComponents/quizBlock/Quiz';
+import { randomInt, shuffleArray } from '../../helpers';
 
 import animalData from '../../db';
 
 const Game = (props: { updateScreenData: (arg0: 'start' | 'game' | 'final') => void; setResult: (arg0: number) => void; }) => {
-  const [score, setScore] = useState(15);
+  const [score, setScore] = useState(0);
   const [arrayIndex, setArrayIndex] = useState(0);
-  const [levelArray, setLevelArray] = useState(animalData[arrayIndex]);
+  const [levelArray, setLevelArray] = useState(shuffleArray(animalData[arrayIndex]));
   const [isAnswered, setIsAnswered] = useState(false);
-
-  const answer = animalData[0][0];
+  const [currentAnswer, setCurrentAnswer] = useState(levelArray[randomInt(0, 5)]);
 
   const setResultValue = (value: number) => {
-    setScore(value);
+    console.log(value);
+
+    const countedCurrentScore = (6 - value) - 1;
+    setScore(score + countedCurrentScore);
   };
 
-  const setAswering = (value: boolean) => {
+  const setAnswering = (value: boolean) => {
     setIsAnswered(value);
+    props.setResult(score);
   };
 
-  if (isAnswered) console.log('button active');
-
-  const levelButtonHandler = (number: number, isRightAnswered: boolean) => {
-    if (isRightAnswered) {
-      if (number !== 6) {
-        setArrayIndex(arrayIndex + 1);
-        setLevelArray(animalData[arrayIndex + 1]);
-      } else {
-        props.updateScreenData('final');
-        props.setResult(score);
-      }
-    } else console.log('continue to find right answer');
+  const setLevelNumber = (value: number) => {
+    setArrayIndex(value);
+    const currentLevelArray = shuffleArray(animalData[value]);
+    setLevelArray(currentLevelArray);
+    setCurrentAnswer(currentLevelArray[randomInt(0, 5)]);
   };
-  console.log(score);
+
+  const setScreen = (value: 'start' | 'game' | 'final') => {
+    props.updateScreenData(value);
+  };
 
   return (
     <>
       <Header score={score} topicNumber={arrayIndex} />
-      <Question answer={answer} isAnswered={isAnswered} />
-      <Quiz levelArray={levelArray} rightAnswer={answer} setResultValue={setResultValue} setAswering={setAswering} />
-      <button type="button" className="btn" onClick={() => levelButtonHandler(arrayIndex + 1, isAnswered)}>Следующий уровень</button>
+      <Question answer={currentAnswer} isAnswered={isAnswered} />
+      <Quiz levelArray={levelArray} levelNumber={arrayIndex} rightAnswer={currentAnswer} setResultValue={setResultValue} setAnswering={setAnswering} setLevelNumber={setLevelNumber} setScreen={setScreen} />
     </>
   );
 };
