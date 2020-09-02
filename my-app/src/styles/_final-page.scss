@@ -16,6 +16,10 @@
     width: 30%;
     background: #00bc8c;
     border-color: #00bc8c;
+    &:hover{
+        background-color: #00EFB2;
+        border-color: #00EFB2;
+    }
 }
 
 .congrats-confetti{
