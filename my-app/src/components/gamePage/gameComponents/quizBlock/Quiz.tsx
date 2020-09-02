@@ -2,6 +2,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useState, useEffect } from 'react';
+import AudioPlayer from 'react-h5-audio-player';
+
+import 'react-h5-audio-player/src/styles.scss';
 
 type AnswerType = {
   id: number,
@@ -173,24 +176,11 @@ const Quiz = (props: {
               </li>
               <li className="list-group-item">
                 <div className="audio-player">
-                  <audio src={choosenVariant.audio} hidden />
-                  <div className="controls">
-                    <div className="play-button">
-                      <img src="/images/otherImages/play-button.svg" alt="play" />
-                    </div>
-                    <div className="timebar-container" style={{ position: 'relative' }}>
-                      <div className="timebar-line" style={{ background: `${timebarProgressColor}` }} />
-                      <div className="timebar-circle" />
-                      <div className="timebar-time">
-                        <div className="time current" />
-                        <div className="time max" />
-                      </div>
-                    </div>
-                    <div className="volumebar">
-                      <img src="/images/otherImages/speaker.svg" alt="volume icon" />
-                      <div id="volume" />
-                    </div>
-                  </div>
+                  <AudioPlayer
+                    className="audio"
+                    src={choosenVariant.audio}
+                    showJumpControls={false}
+                  />
                 </div>
               </li>
             </ul>
