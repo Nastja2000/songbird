@@ -12,20 +12,57 @@ type AnswerType = {
   audio: string
 };
 
-const Quiz = (props: { levelArray: any; rightAnswer: AnswerType; setResultValue: (arg0: number) => void; setAswering: (arg0: boolean) => void;}) => {
-  const { levelArray, rightAnswer } = props;
+const Quiz = (props: {
+  levelArray: any;
+  levelNumber: number;
+  rightAnswer: AnswerType;
+  setResultValue: (arg0: number) => void;
+  setAnswering: (arg0: boolean) => void;
+  setLevelNumber: (arg0: number) => void;
+  setScreen: (arg0: 'start' | 'game' | 'final') => void;
+}) => {
+  const {
+    levelArray, rightAnswer, levelNumber
+  } = props;
 
   const [insructionDisplay, setInsructionDisplay] = useState('block');
   const [infoDisplay, setInfoDisplay] = useState('none');
-  const [errorCount, setErrorCount] = useState(0);
   const [isVariantChoosen, setIsVariantChoosen] = useState(false);
   const [choosenVariant, setChoosenVariant] = useState(levelArray[0]);
-  const [points, setPoints] = useState(0);
+  const [isAnswered, setIsAnswered] = useState(false);
 
-  const countOfVariants: number = 6;
   const audioProgress: string = '0%';
   const timebarProgressColor = `linear-gradient(to right, rgb(0, 188, 140) 0%, rgb(61, 133, 140) ${audioProgress}, rgb(115, 115, 115) ${audioProgress}, rgb(115, 115, 115) 100%)`;
   const rightAnswerId: number = rightAnswer.id;
+
+  useEffect(() => {
+    if (isAnswered) {
+      document.querySelector('.btn')?.classList.add('btn-next');
+    }
+  }, [isAnswered]);
+
+  const levelButtonHandler = (number: number, isRightAnswered: boolean) => {
+    if (isRightAnswered) {
+      if (number < 5) {
+        props.setLevelNumber(levelNumber + 1);
+        setIsAnswered(false);
+        props.setAnswering(false);
+
+        document.querySelector('.btn')?.classList.remove('btn-next');
+        document.querySelector('.success')?.classList.remove('success');
+
+        const errorListArray = Array.from(document.querySelectorAll('.error'));
+        errorListArray.forEach((elem) => elem?.classList.remove('error'));
+
+        document.querySelector('.game-instruction')?.classList.add('d-block');
+        document.querySelector('.animal-description')?.classList.add('d-none');
+        document.querySelector('.card-body')?.classList.add('d-none');
+      } else {
+        props.setLevelNumber(0);
+        props.setScreen('final');
+      }
+    } else console.log('continue to find right answer');
+  };
 
   useEffect(() => {
     const gameInstruction = document.querySelector('.game-instruction');
@@ -46,23 +83,47 @@ const Quiz = (props: { levelArray: any; rightAnswer: AnswerType; setResultValue:
   }, [isVariantChoosen]);
 
   function listTopicsHandler(event: any) {
+    let indexOfCurrentVariant;
+    let varriantsArray;
     const currentVariantId = event.target.getAttribute('id');
+    const variantsList = document.querySelector('.item-list');
 
-    if (Number(currentVariantId) !== rightAnswerId) {
-      console.log('there', currentVariantId, rightAnswerId);
-      setIsVariantChoosen(true);
-      event.target?.classList.add('error');
-      setChoosenVariant(levelArray[currentVariantId - 1]);
-      setErrorCount(errorCount + 1);
-    } else {
-      console.log('here', currentVariantId, rightAnswerId);
-      setIsVariantChoosen(true);
-      event.target?.classList.add('success');
-      setPoints((countOfVariants - errorCount) - 1);
-      setChoosenVariant(levelArray[currentVariantId - 1]);
-      props.setAswering(true);
-      props.setResultValue(points);
-    }
+    if (variantsList !== null) varriantsArray = Array.from(variantsList.querySelectorAll('.list-group-item'));
+    if (varriantsArray !== null && varriantsArray !== undefined) indexOfCurrentVariant = varriantsArray.indexOf(event.target);
+
+    document.querySelector('.game-instruction')?.classList.remove('d-block');
+    document.querySelector('.animal-description')?.classList.remove('d-none');
+    document.querySelector('.card-body')?.classList.remove('d-none');
+
+    if (!isAnswered) {
+      if (Number(currentVariantId) !== rightAnswerId) {
+        event.target?.classList.add('error');
+
+        setIsVariantChoosen(true);
+        if (indexOfCurrentVariant !== undefined) setChoosenVariant(levelArray[indexOfCurrentVariant]);
+        setIsAnswered(false);
+
+        const audio = new Audio('/audio/otherAudio/error.mp3');
+        audio.play();
+      } else {
+        event.target?.classList.add('success');
+
+        setIsVariantChoosen(true);
+        if (indexOfCurrentVariant !== undefined) setChoosenVariant(levelArray[indexOfCurrentVariant]);
+        setIsAnswered(true);
+
+        props.setAnswering(true);
+
+        if (variantsList !== null) {
+          const errorArray = Array.from(variantsList.querySelectorAll('.error'));
+
+          props.setResultValue(errorArray.length);
+        }
+
+        const audio = new Audio('/audio/otherAudio/correct.mp3');
+        audio.play();
+      }
+    } else if (indexOfCurrentVariant !== undefined) setChoosenVariant(levelArray[indexOfCurrentVariant]);
   }
 
   return (
@@ -137,6 +198,7 @@ const Quiz = (props: { levelArray: any; rightAnswer: AnswerType; setResultValue:
           <span className="animal-description" style={{ display: infoDisplay }}>{choosenVariant.description}</span>
         </div>
       </div>
+      <button type="button" className="btn" onClick={() => levelButtonHandler(levelNumber, isAnswered)}>Следующий уровень</button>
     </div>
   );
 };
